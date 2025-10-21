@@ -1,4 +1,3 @@
-
 import { Text } from '@react-navigation/elements';
 import bg from '@/assets/images/bg.jpeg'
 import { ImageBackground, StyleSheet, View } from 'react-native';
