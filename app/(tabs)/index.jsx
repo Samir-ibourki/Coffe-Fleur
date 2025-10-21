@@ -6,7 +6,7 @@ export default function HomeScreen() {
  return (
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bgImage} resizeMode="cover">
-        <Text style={styles.text}>hello world</Text>
+        <Text style={styles.text}>hello jgyu world </Text>
       </ImageBackground>
     </View>
   );
