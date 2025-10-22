@@ -1,13 +1,45 @@
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, Animated, Easing } from "react-native";
 import { Link } from "expo-router";
-
+import { useEffect, useRef } from "react";
 import bg from "../assets/images/bgg.jpeg";
 
 export default function HomeScreen() {
+  const slideAnim = useRef(new Animated.Value(50)).current; // البداية: 50px تحت
+  const opacityAnim = useRef(new Animated.Value(0)).current; // البداية: شفاف
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+        easing: Easing.out(Easing.exp),
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+        easing: Easing.out(Easing.exp),
+      }),
+    ]).start();
+  }, []);
+
   return (
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bgImage} resizeMode="cover">
-        <View style={styles.bottomContainer}>
+        {/* Overlay شفاف */}
+        <View style={styles.overlay} />
+
+        {/* Animated Content */}
+        <Animated.View
+          style={[
+            styles.bottomContainer,
+            { 
+              transform: [{ translateY: slideAnim }],
+              opacity: opacityAnim,
+            },
+          ]}
+        >
           <Text style={styles.text}>
             My first thought in the morning is always yo
           </Text>
@@ -15,7 +47,7 @@ export default function HomeScreen() {
           <Link href="/product" style={styles.button}>
             <Text style={styles.buttonText}>Go to Details</Text>
           </Link>
-        </View>
+        </Animated.View>
       </ImageBackground>
     </View>
   );
@@ -23,11 +55,18 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  bgImage: { flex: 1, justifyContent: "flex-end", paddingBottom: 50 },
+  bgImage: { flex: 1, justifyContent: "flex-end" },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
   bottomContainer: { 
     alignItems: "center",       
     justifyContent: "center",  
-    marginBottom:30
+    marginBottom: 30,
+    position: "absolute",
+    bottom: 50,
+    width: "100%",
   },
   text: {
     color: "#fff",
@@ -38,8 +77,8 @@ const styles = StyleSheet.create({
     textShadowColor: "#000",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 5,
-    maxWidth: "95%",       // <-- max width 90% dyal container
-  alignSelf: "center"
+    maxWidth: "95%",
+    alignSelf: "center",
   },
   button: {
     backgroundColor: "#D2691E",
@@ -53,7 +92,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
-  
   },
-  buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold", },
+  buttonText: { 
+    color: "#fff", 
+    fontSize: 18, 
+    fontWeight: "bold", 
+  },
 });
+
