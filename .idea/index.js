@@ -1,12 +1,12 @@
 
+import bg from '@/assets/images/bg.jpeg';
 import { Text } from '@react-navigation/elements';
-import bg from '@/assets/images/bg.jpeg'
 import { ImageBackground, StyleSheet, View } from 'react-native';
 export default function HomeScreen() {
  return (
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bgImage} resizeMode="cover">
-        <Text style={styles.text}>hello jgyu world </Text>
+        <Text style={styles.text}>hello  world </Text>
       </ImageBackground>
     </View>
   );
