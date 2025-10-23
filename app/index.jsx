@@ -44,7 +44,7 @@ export default function HomeScreen() {
             My first thought in the morning is always yo
           </Text>
 
-          <Link href="/test" style={styles.button}>
+          <Link href="/product" style={styles.button}>
             <Text style={styles.buttonText}>Go to Details</Text>
           </Link>
         </Animated.View>

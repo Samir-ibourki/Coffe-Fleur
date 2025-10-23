@@ -4,6 +4,6 @@ export default function Layout() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="test" options={{ title: "Product Page" }} />
+      <Stack.Screen name="product" options={{ title: "Product Page" }} />
     </Stack>
   )}
