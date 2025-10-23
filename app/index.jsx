@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 import bg from "../assets/images/bgg.jpeg";
 
 export default function HomeScreen() {
-  const slideAnim = useRef(new Animated.Value(50)).current; // البداية: 50px تحت
-  const opacityAnim = useRef(new Animated.Value(0)).current; // البداية: شفاف
+  const slideAnim = useRef(new Animated.Value(50)).current; 
+  const opacityAnim = useRef(new Animated.Value(0)).current; 
 
   useEffect(() => {
     Animated.parallel([
@@ -22,15 +22,15 @@ export default function HomeScreen() {
         easing: Easing.out(Easing.exp),
       }),
     ]).start();
-  }, []);
+  }, [opacityAnim, slideAnim]);
 
   return (
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bgImage} resizeMode="cover">
-        {/* Overlay شفاف */}
+       
         <View style={styles.overlay} />
 
-        {/* Animated Content */}
+       
         <Animated.View
           style={[
             styles.bottomContainer,
