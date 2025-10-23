@@ -13,7 +13,10 @@ import {
 let Header = () => {
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("@/assets/images/logo2.png")} />
+      <Image
+        style={styles.logo}
+        source={require("@/assets/images/logo2.png")}
+      />
       <TouchableOpacity onPress={() => console.log("Icon clicked")}>
         <Ionicons name="cart-outline" size={28} color="black" />
       </TouchableOpacity>
@@ -42,8 +45,7 @@ let Slider = () => {
         style={styles.sliderimg}
         imageStyle={{ borderRadius: 15 }}
       >
-        <Text style={styles.sliderText}>Love in the Law of Arab Coffee
-</Text>
+        <Text style={styles.sliderText}>Love in the Law of Arab Coffee</Text>
       </ImageBackground>
     </View>
   );
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
   sliderimg: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "start", 
+    alignItems: "start",
   },
   sliderText: {
     color: "#993c06ff",
@@ -95,11 +97,10 @@ const styles = StyleSheet.create({
     textShadowColor: "#000",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 5,
-    marginLeft:30,
-    fontStyle:'italic',
-    width:200,
-    lineHeight:50
-
+    marginLeft: 30,
+    fontStyle: "italic",
+    width: 200,
+    lineHeight: 50,
   },
   parentInput: {
     flexDirection: "row",
