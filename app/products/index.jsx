@@ -1,16 +1,20 @@
 import { Ionicons } from "@expo/vector-icons";
 
 import { Link, router } from "expo-router";
+import { useState } from "react";
 import {
   Image,
   ImageBackground,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+ 
+  ScrollView
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 export const products = [
   {
@@ -18,53 +22,65 @@ export const products = [
     name: "Espresso",
     price: "25 MAD",
     image: require("@/assets/images/pro1.jpeg"),
-    description: "Strong and rich coffee shot Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo fuga nihil magnam quis iusto dolores perspiciatis natus expedita iure, autem sunt error in necessitatibus consequatur, saepe, ex alias! Necessitatibus, laboriosam..",
+    description:
+      "Strong and rich coffee shot Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo fuga nihil magnam quis iusto dolores perspiciatis natus expedita iure, autem sunt error in necessitatibus consequatur, saepe, ex alias! Necessitatibus, laboriosam..",
   },
   {
     id: 2,
     name: "Cappuccino",
     price: "30 MAD",
     image: require("@/assets/images/pro2.jpeg"),
-    description: "Espresso with steamed milk and foam Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo fuga nihil magnam quis iusto dolores perspiciatis natus expedita iure, autem sunt error in necessitatibus consequatur, saepe, ex alias! Necessitatibus, laboriosam..",
+    description:
+      "Espresso with steamed milk and foam Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo fuga nihil magnam quis iusto dolores perspiciatis natus expedita iure, autem sunt error in necessitatibus consequatur, saepe, ex alias! Necessitatibus, laboriosam..",
   },
   {
     id: 3,
     name: "Latte",
     price: "28 MAD",
     image: require("@/assets/images/pro3.jpeg"),
-    description: "Smooth blend of coffee and milk Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo fuga nihil magnam quis iusto dolores perspiciatis natus expedita iure, autem sunt error in necessitatibus consequatur, saepe, ex alias! Necessitatibus, laboriosam..",
+    description:
+      "Smooth blend of coffee and milk Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo fuga nihil magnam quis iusto dolores perspiciatis natus expedita iure, autem sunt error in necessitatibus consequatur, saepe, ex alias! Necessitatibus, laboriosam..",
   },
   {
     id: 4,
     name: "Mocha",
     price: "32 MAD",
     image: require("@/assets/images/pro4.jpeg"),
-    description: "Coffee with chocolate and milk Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo fuga nihil magnam quis iusto dolores perspiciatis natus expedita iure, autem sunt error in necessitatibus consequatur, saepe, ex alias! Necessitatibus, laboriosam..",
+    description:
+      "Coffee with chocolate and milk Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo fuga nihil magnam quis iusto dolores perspiciatis natus expedita iure, autem sunt error in necessitatibus consequatur, saepe, ex alias! Necessitatibus, laboriosam..",
   },
 ];
 
 let Header = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => router.push("/")}>
         <Ionicons name="home" size={28} color="white" />
       </TouchableOpacity>
-      <Image
-        style={styles.logo}
-        source={require("@/assets/images/logo.png")}
-      />
-      <TouchableOpacity onPress={() => router.navigate('/products/2')}>
+      <Image style={styles.logo} source={require("@/assets/images/logo.png")} />
+      <TouchableOpacity onPress={() => router.navigate("/products/2")}>
         <Ionicons name="cart-outline" size={28} color="white" />
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
-let FormInput = () => {
+let FormInput = ({ data, setData }) => {
+  const [search, setSearch] = useState("");
+
+  function handlesearch(text) {
+    setSearch(text);
+    const filterd = products.filter((item) =>
+      item.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setData(filterd);
+  }
   return (
     <View style={styles.parentInput}>
       <Ionicons name="search" size={20} color="#0a0a0aff" style={styles.icon} />
       <TextInput
+        value={search}
+        onChangeText={handlesearch}
         placeholder="search.."
         style={styles.input}
         underlineColorAndroid="transparent"
@@ -87,13 +103,17 @@ let Slider = () => {
   );
 };
 
-let CardProducts = () => {
+let CardProducts = ({ data }) => {
   return (
     <ScrollView contentContainerStyle={styles.parentcad}>
-      {products.map((pro) => (
+      {data.map((pro) => (
         <Link href={`/products/${pro.id}`} asChild key={pro.id}>
           <TouchableOpacity style={styles.card}>
-            <Image resizeMode="cover" style={styles.imgCard} source={pro.image} />
+            <Image
+              resizeMode="cover"
+              style={styles.imgCard}
+              source={pro.image}
+            />
             <View style={styles.info}>
               <Text style={styles.name}>{pro.name}</Text>
               <Text style={styles.price}>{pro.price}</Text>
@@ -106,13 +126,15 @@ let CardProducts = () => {
 };
 
 export default function HomeScreen() {
+  const [data, setData] = useState(products);
   return (
-    <ScrollView style={{ flex: 1, backgroundColor:'#1F1B18' }}>
+
+    <View style={{ flex: 1, backgroundColor: "#1F1B18" }}>
       <Header />
-      <FormInput />
+      <FormInput setData={setData} data={data} />
       <Slider />
-      <CardProducts />
-    </ScrollView>
+      <CardProducts data={data} />
+    </View>
   );
 }
 
@@ -196,16 +218,16 @@ const styles = StyleSheet.create({
   },
   card: {
     width: "48%",
-    backgroundColor: "#f7eeeeee",
+    backgroundColor: "#eee7e7ee",
     marginBottom: 15,
     borderRadius: 10,
     overflow: "hidden",
-   elevation: 5, 
+    elevation: 5,
 
-  shadowColor: "#e4d4d4ff",          
-  shadowOffset: { width: 0, height: 3 },  
-  shadowOpacity: 0.25,          
-  shadowRadius: 4,      
+    shadowColor: "#e4d4d4ff",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
   imgCard: {
     width: "100%",
@@ -217,7 +239,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: "bold",
-    color:'#C9A227'
+    color: "#C9A227",
   },
   price: {
     fontSize: 16,

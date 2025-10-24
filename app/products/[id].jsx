@@ -1,10 +1,11 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { products } from "./index"; // كنستوردو نفس الآري
+import { products } from "./index";   
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProductDetails() {
   const { id } = useLocalSearchParams();
-  const product = products.find((item) => item.id == id);
+  const product = products.find((item) => item.id == Number(id));
 
   if (!product) {
     return (
@@ -15,7 +16,11 @@ export default function ProductDetails() {
   }
 
   return (
+    
+
+    
     <View style={styles.container}>
+      <SafeAreaView>
       {/* <Image source={product.image} style={styles.image} /> */}
        <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
         <Text style={styles.backText}>← Back</Text>
@@ -35,7 +40,9 @@ export default function ProductDetails() {
       <TouchableOpacity style={styles.addBtn}>
         <Text style={styles.addBtnText}>Add to Cart</Text>
       </TouchableOpacity>
+      </SafeAreaView>
     </View>
+    
   );
 }
 
